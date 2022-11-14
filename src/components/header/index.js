@@ -21,8 +21,6 @@ import AllMenu from "./AllMenu";
 import useClickOutside from "../../helpers/clickOutside";
 import UserMenu from "./userMenu";
 import { useNavigate } from "react-router-dom";
-import { Effect } from "react-notification-badge";
-import NotificationBadge from "react-notification-badge";
 
 export default function Header({ page, notificaion, setNotification }) {
   const navigate = useNavigate();
@@ -117,11 +115,6 @@ export default function Header({ page, notificaion, setNotification }) {
           }}
         >
           <Messenger />
-          {notificaion ? (
-            <NotificationBadge>count=1 effect ={Effect}</NotificationBadge>
-          ) : (
-            ""
-          )}
         </div>
         <div className="circle_icon hover1">
           <Notifications />
