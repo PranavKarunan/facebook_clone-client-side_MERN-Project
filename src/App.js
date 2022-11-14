@@ -16,6 +16,7 @@ import Messanger from "./pages/messenger/Messanger";
 function App() {
   const [visible, setVisible] = useState(false);
   const { user } = useSelector((state) => ({ ...state }));
+  const [newPost, setNewPost] = useState(false);
   const [{ loading, error, posts }, dispatch] = useReducer(postsReducer, {
     loading: false,
     posts: [],
@@ -23,17 +24,20 @@ function App() {
   });
   useEffect(() => {
     getAllPosts();
-  }, []);
+  }, [newPost]);
   const getAllPosts = async () => {
     try {
       dispatch({
         type: "POSTS_REQUEST",
       });
-      const { data } = await axios.get("http://localhost:8080/getAllPost", {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/getAllPost`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
       dispatch({
         type: "POSTS_SUCCESS",
         payload: data,
@@ -47,7 +51,13 @@ function App() {
   };
   return (
     <div>
-      {visible && <CreatePostPopup user={user} setVisible={setVisible} />}
+      {visible && (
+        <CreatePostPopup
+          user={user}
+          setVisible={setVisible}
+          setNewPost={setNewPost}
+        />
+      )}
       <Routes>
         <Route element={<LoggedInRoutes />}>
           <Route

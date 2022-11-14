@@ -9,8 +9,7 @@ export const createPost = async (
 ) => {
   try {
     const { data } = await axios.post(
-      //   `${process.env.REACT_APP_BACKEND_URL}/createPost`,
-      "http://localhost:8080/createPost",
+      `${process.env.REACT_APP_BACKEND_URL}/createPost`,
       {
         type,
         background,
@@ -27,6 +26,7 @@ export const createPost = async (
 
     return "ok";
   } catch (error) {
+    console.log(error);
     return error.response.data.message;
   }
 };
@@ -77,6 +77,24 @@ export const comment = async (postId, comment, image, token) => {
         comment,
         image,
       },
+
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return data;
+  } catch (error) {
+    return error.response.data.message;
+  }
+};
+
+export const deletePost = async (postId, token) => {
+  try {
+    const { data } = await axios.delete(
+      `${process.env.REACT_APP_BACKEND_URL}/deletePost/${postId}`,
 
       {
         headers: {

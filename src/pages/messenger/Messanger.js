@@ -13,17 +13,18 @@ export default function Messenger() {
   const [conversations, setConversations] = useState([]);
   const [currentChat, setCurrentChat] = useState("");
   const [messages, setMessages] = useState(null);
-  const socket = useRef(io(process.env.SOCKET_URL));
+  const socket = useRef(io("ws://localhost:9000"));
   const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
+  const [notification, setNotification] = useState([]);
 
   const scrollRef = useRef();
 
   const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
-    socket.current = io(process.env.SOCKET_URL);
+    socket.current = io("ws://localhost:9000");
     socket.current.on("getMessage", (data) => {
       setArrivalMessage({
         sender: data.senderId,
@@ -32,18 +33,18 @@ export default function Messenger() {
       });
     });
   }, []);
-
+  console.log(arrivalMessage);
   useEffect(() => {
-    arrivalMessage &&
-      currentChat?.members.includes(arrivalMessage.sender) &&
-      setMessages((prev) => [...prev, arrivalMessage]);
+    arrivalMessage && currentChat?.members?.includes(arrivalMessage.sender)
+      ? setMessages((prev) => [...prev, arrivalMessage])
+      : setNotification("new message recieved....");
   }, [arrivalMessage, currentChat]);
-
+  console.log(notification);
   useEffect(() => {
     socket.current.emit("addUser", user.id);
     socket.current.on("getUsers", (users) => {
       setOnlineUsers(
-        user.followings.filter((f) => users.some((u) => u.userId === f))
+        user.followings?.filter((f) => users.some((u) => u.userId === f))
       );
     });
   }, [user]);
@@ -54,6 +55,7 @@ export default function Messenger() {
         const res = await axios.get(
           `${process.env.REACT_APP_BACKEND_URL}/getConversation/${user.id}`
         );
+
         setConversations(res.data);
       } catch (err) {
         console.log(err);
@@ -89,7 +91,7 @@ export default function Messenger() {
     };
 
     const recieverId = currentChat.members.find((member) => member !== user.id);
-    console.log("recieverId   :", recieverId);
+
     socket.current.emit("sendMessage", {
       senderId: user.id,
       recieverId,
@@ -115,7 +117,11 @@ export default function Messenger() {
   };
   return (
     <>
-      <Header page={"messenger"} />
+      <Header
+        page={"messenger"}
+        notification={notification}
+        setNotification={setNotification}
+      />
       <div className="messenger">
         <div className="chatMenu">
           <div className="chatMenuWrapper">
@@ -177,7 +183,9 @@ export default function Messenger() {
             <ChatOnline
               onlineUsers={onlineUsers}
               currentId={user.id}
+              // onClick={(id) => getChat(id)}
               setCurrentChat={setCurrentChat}
+              user={user}
             />
           </div>
         </div>

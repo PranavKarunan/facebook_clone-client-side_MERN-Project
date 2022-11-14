@@ -1,11 +1,17 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import DisplayAccessibility from "./DisplayAccessibility";
 import HelpSupport from "./HelpSupport";
 import SettingsPrivacy from "./SettingsPrivacy";
 
 export default function UserMenu({ user }) {
+  const dispatch = useDispatch()
   const [visible, setVisible] = useState(0);
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    dispatch({ type: "LOGOUT", payload: null });
+  };
   return (
     <div className="mmenu">
       {visible === 0 && (
@@ -72,7 +78,7 @@ export default function UserMenu({ user }) {
               <i className="right_icon"></i>
             </div>
           </div>
-          <div className="mmenu_item hover3">
+          <div className="mmenu_item hover3" onClick={handleLogout}>
             <div className="small_circle">
               <i className="logout_filled_icon"></i>
             </div>

@@ -29,7 +29,6 @@ export default function Profile({ setVisible }) {
     getProfile();
   }, [userName]);
   var visitor = userName === user.username ? false : true;
-  console.log(visitor);
 
   const getProfile = async () => {
     try {

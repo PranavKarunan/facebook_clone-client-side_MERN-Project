@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 import PostError from "./PostError";
 import dataURItoBlob from "../../helpers/dataURItoBlob";
 import { uploadImages } from "../../functions/uploadImages";
-export default function CreatePostPopup({ user, setVisible }) {
+export default function CreatePostPopup({ user, setVisible, setNewPost }) {
   const dispatch = useDispatch();
   const popup = useRef(null);
   const [text, setText] = useState("");
@@ -39,6 +39,7 @@ export default function CreatePostPopup({ user, setVisible }) {
         setBackground("");
         setText("");
         setVisible(false);
+        setNewPost((prev) => !prev);
       } else {
         setError(response);
       }
@@ -68,6 +69,7 @@ export default function CreatePostPopup({ user, setVisible }) {
         setText("");
         setImages("");
         setVisible(false);
+        setNewPost((prev) => !prev);
       } else {
         setError(res);
       }
@@ -86,18 +88,18 @@ export default function CreatePostPopup({ user, setVisible }) {
         setBackground("");
         setText("");
         setVisible(false);
+        setNewPost((prev) => !prev);
       } else {
         setError(response);
       }
     } else {
-      console.log("nothing");
     }
   };
   return (
     <div className="blur">
       <div className="postBox" ref={popup}>
         {error && <PostError error={error} setError={setError} />}
-        <div className="postBox_header">
+        <div className="box_header">
           <div
             className="small_circle"
             onClick={() => {

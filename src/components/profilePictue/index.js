@@ -1,7 +1,10 @@
 import { useRef, useState } from "react";
+import useClickOutside from "../../helpers/clickOutside";
 import "./style.scss";
 import UpdateProfilePicture from "./UpdateProfilePicture";
-export default function ProfilePicture() {
+export default function ProfilePicture({ username, setShow, pRef }) {
+  const popup = useRef(null);
+  // useClickOutside(popup, () => setShow(false));
   const refInput = useRef(null);
   const [image, setImage] = useState("");
   const [error, setError] = useState("");
@@ -9,6 +12,7 @@ export default function ProfilePicture() {
     let file = e.target.files[0];
     if (
       file.type !== "image/jpeg" &&
+      file.type !== "image/jpg" &&
       file.type !== "image/png" &&
       file.type !== "image/webp" &&
       file.type !== "image/gif"
@@ -35,9 +39,9 @@ export default function ProfilePicture() {
         onChange={handleImage}
         accept="image/jpeg,image/png,image/webp,image/gif"
       />
-      <div className="postBox pictureBox">
+      <div className="postBox pictureBox" ref={popup}>
         <div className="box_header">
-          <div className="small_circle">
+          <div className="small_circle" onClick={() => setShow(false)}>
             <i className="exit_icon"></i>
           </div>
           <span>Update profile picture</span>
@@ -67,7 +71,15 @@ export default function ProfilePicture() {
         )}
         <div className="old_pictures_wrap"></div>
       </div>
-      {image && <UpdateProfilePicture setImage={setImage} image={image} setError={setError} />}
+      {image && (
+        <UpdateProfilePicture
+          setImage={setImage}
+          image={image}
+          setShow={setShow}
+          setError={setError}
+          pRef={pRef}
+        />
+      )}
     </div>
   );
 }

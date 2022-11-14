@@ -14,7 +14,6 @@ export default function ImagePreview({
   const handleImages = (e) => {
     let files = Array.from(e.target.files);
     files.forEach((img) => {
-      console.log(img);
       if (
         img.type !== "image/jpeg" &&
         img.type !== "image/png" &&
@@ -22,9 +21,7 @@ export default function ImagePreview({
         img.type !== "image/gif" &&
         img.type !== "image/jpg"
       ) {
-        setError(
-          `${img.name} format is unsupported !`
-        );
+        setError(`${img.name} format is unsupported !`);
         files = files.filter((item) => item.name !== img.name);
         return;
       } else if (img.size > 1024 * 1024 * 5) {

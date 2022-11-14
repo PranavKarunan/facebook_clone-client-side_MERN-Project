@@ -17,7 +17,7 @@ export default function Home({ setVisible, posts }) {
   }, []);
   return (
     <div className="home" style={{ height: `${height + 150}px` }}>
-      <Header page="home" />
+      <Header page="home" setVisible={setVisible} />
       <LeftHome user={user} />
       <div className="home_middle" ref={middle}>
         <Stories />

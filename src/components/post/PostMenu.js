@@ -1,15 +1,26 @@
 import { useRef, useState } from "react";
 import MenuItem from "./MenuItem";
 import useOnClickOutside from "../../helpers/clickOutside";
+import { deletePost } from "../../functions/post";
 export default function PostMenu({
   postUserId,
   userId,
+  postId,
+  token,
   imagesLength,
   setShowMenu,
+  postRef,
 }) {
+  console.log(postRef);
   const [test, setTest] = useState(postUserId === userId ? true : false);
   const menu = useRef(null);
   useOnClickOutside(menu, () => setShowMenu(false));
+  const deleteHandler = async () => {
+    const res = await deletePost(postId, token);
+    if (res.status === "ok") {
+      postRef.current.remove();
+    }
+  };
   return (
     <ul className="post_menu" ref={menu}>
       {test && <MenuItem icon="pin_icon" title="Pin Post" />}
@@ -44,11 +55,13 @@ export default function PostMenu({
       )}
       {test && <MenuItem icon="archive_icon" title="Move to archive" />}
       {test && (
-        <MenuItem
-          icon="trash_icon"
-          title="Move to trash"
-          subtitle="items in your trash are deleted after 30 days"
-        />
+        <div onClick={() => deleteHandler()}>
+          <MenuItem
+            icon="trash_icon"
+            title="Move to trash"
+            subtitle="items in your trash are deleted after 30 days"
+          />
+        </div>
       )}
       {!test && <div className="line"></div>}
       {!test && (

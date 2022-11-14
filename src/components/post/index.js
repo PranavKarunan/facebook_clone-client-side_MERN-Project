@@ -3,7 +3,7 @@ import "./style.scss";
 import Moment from "react-moment";
 import { Dots, Public } from "../../svg";
 import ReactsPopup from "./ReactsPopup";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CreateComment from "./CreateComment";
 import PostMenu from "./PostMenu";
 import { comment, getReacts, reactPost } from "../../functions/post";
@@ -45,25 +45,25 @@ export default function Post({ post, user, profile }) {
       if (index !== -1) {
         setReacts([...reacts, (reacts[index].count = ++reacts[index].count)]);
         setTotal((prev) => ++prev);
-        console.log(reacts);
       }
       if (index1 !== -1) {
         setReacts([...reacts, (reacts[index1].count = --reacts[index1].count)]);
         setTotal((prev) => --prev);
-        console.log(reacts);
       }
     }
   };
   const showMore = () => {
     setCount((prev) => prev + 3);
   };
+  const postRef = useRef(null);
   return (
-    <div className="post" style={{ width: `${profile && "100%"}` }}>
+    <div
+      className="post"
+      style={{ width: `${profile && "100%"}` }}
+      ref={postRef}
+    >
       <div className="post_header">
-        <Link
-          to={`/profile`}
-          className="post_header_left"
-        >
+        <Link to={`/profile`} className="post_header_left">
           <img src={post.user.picture} alt="" />
           <div className="header_col">
             <div className="post_profile_name">
@@ -166,7 +166,7 @@ export default function Post({ post, user, profile }) {
         </div>
         <div className="to_right">
           <div className="comments_count">{comments.length} comments</div>
-          <div className="share_count">1 share</div>
+          <div className="share_count">0 share</div>
         </div>
       </div>
       <div className="post_actions">
@@ -260,6 +260,10 @@ export default function Post({ post, user, profile }) {
           postUserId={post.user._id}
           imagesLength={post?.images?.length}
           setShowMenu={setShowMenu}
+          postId={post._id}
+          token={user.token}
+          images={post.images}
+          postRef={postRef}
         />
       )}
     </div>
