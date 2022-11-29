@@ -1,7 +1,6 @@
 import "./style.scss";
 import { Link, Navigate } from "react-router-dom";
 import PostAddOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
-
 import {
   ArrowDown,
   Friends,
@@ -24,6 +23,7 @@ import useClickOutside from "../../helpers/clickOutside";
 import UserMenu from "./userMenu";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { FriendsActive } from "../../svg";
 
 export default function Header({
   page,
@@ -33,7 +33,7 @@ export default function Header({
 }) {
   const navigate = useNavigate();
   const { user } = useSelector((user) => ({ ...user }));
-  const color = "#65676b";
+  const color = "#111";
   const [showSearchMenu, setShowSearchMenu] = useState(false);
   const dispatch = useDispatch();
   const [showAllMenu, setShowAllMenu] = useState(false);
@@ -88,8 +88,11 @@ export default function Header({
         >
           {page === "home" ? <HomeActive /> : <Home color={color} />}
         </Link>
-        <Link to="" className="middle_icon hover1">
-          <Friends color={color} />
+        <Link
+          to="/friends"
+          className={`middle_icon ${page === "friends" ? "active" : "hover1"}`}
+        >
+          {page === "friends" ? <FriendsActive /> : <Friends color={color} />}
         </Link>
         {/* <Link to="" className="middle_icon hover1">
           <Watch color={color} />
