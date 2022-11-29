@@ -1,8 +1,10 @@
 import axios from "axios";
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { photosReducer } from "../../functions/reducers";
 
-export default function Photos({ username, token }) {
+
+export default function Photos({ username, token,photosVisible,singlePhoto,setPhotosVisible,setSinglePhoto }) {
+  
   const [{ loading, error, photos }, dispatch] = useReducer(photosReducer, {
     loading: false,
     photos: {},
@@ -41,11 +43,20 @@ export default function Photos({ username, token }) {
       });
     }
   };
+  const seeAllPhotosHandler = () => {
+    setPhotosVisible(true);
+  };
+  const singlePhotoHandler = (id)=>{
+    setSinglePhoto(true)
+  }
+  console.log(photos);
   return (
     <div className="profile_card">
       <div className="profile_card_header">
         Photos
-        <div className="profile_header_link">See all photos</div>
+        <div className="profile_header_link" onClick={seeAllPhotosHandler}>
+          See all photos
+        </div>
       </div>
       <div className="profile_card_count">
         {photos.total_count === 0
@@ -57,10 +68,18 @@ export default function Photos({ username, token }) {
       <div className="profile_card_grid">
         {photos.resources &&
           photos.resources.slice(0, 9).map((img) => (
-            <div className="profile_photo_card" key={img.public_id}>
+            <div
+              className="profile_photo_card"
+              key={img.public_id}
+              onClick={() => singlePhotoHandler(img.public_id)}
+            >
               <img src={img.secure_url} alt="" />
             </div>
           ))}
+
+          {
+            
+          }
       </div>
     </div>
   );

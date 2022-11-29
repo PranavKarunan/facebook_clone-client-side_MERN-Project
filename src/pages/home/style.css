@@ -1,14 +1,21 @@
+.home_wrapper {
+  background: white;
+}
 .home {
+  background: white;
   min-height: 100vh;
   background: var(--bg-secondary);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  margin-top: 30px;
 }
 .home_middle {
   margin-top: 75px;
   position: absolute;
-  left: 50%;
+  left: 49%;
+  width: fit-content;
   transform: translateX(-50%);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 @media (max-width: 1175px) {
   .stories,

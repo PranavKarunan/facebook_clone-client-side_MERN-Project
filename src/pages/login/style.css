@@ -52,12 +52,19 @@
   background: var(--bg-third);
 }
 .open_signup {
-  background: var(--green-color);
+  background-color: var(--black-color );
+  color: var(--bg-primary);
   width: 70% !important;
   font-weight: 600 !important;
   font-size: 17px !important;
   margin-top: 1rem;
 }
+.open_signup:hover {
+  background-color: var(--bg-primary);
+  color: var(--black-color);
+}
+
+
 .sign_extra {
   font-size: 15px;
 }

@@ -1,8 +1,12 @@
 .right_home {
+  margin-top: 30px;
+  background: white;
     position: fixed;
     left: 80.7vw;
     top: 4rem;
     width: 17vw;
+    height: 70vh;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   }
   .splitter1 {
     height: 1.3px;

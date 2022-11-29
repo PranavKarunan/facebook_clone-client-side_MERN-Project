@@ -14,7 +14,7 @@
   width: 100%;
 }
 .update_picture_buttons .light_blue_btn {
-  color: var(--blue-color);
+  color: var(--black-color);
 }
 .update_img {
   width: 700px !important;
@@ -37,7 +37,7 @@
   color: var(--color-primary);
 }
 .textarea_blue:focus {
-  outline-color: var(--blue-color);
+  outline-color: var(--black-color);
 }
 .textarea_blue:hover {
   border-color: var(--color-secondary);
@@ -125,7 +125,7 @@
   gap: 1rem;
 }
 .blue_link {
-  color: var(--blue-color);
+  color: var(--black-color);
   font-weight: 600;
   font-size: 15px;
   cursor: pointer;

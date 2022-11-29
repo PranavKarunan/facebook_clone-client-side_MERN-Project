@@ -16,9 +16,11 @@
   padding-left: 10px;
   margin-bottom: 10px;
   color: var(--color-primary);
+  
 }
 .input_wrap input:focus {
-  border-color: var(--blue-color);
+  /* border-color: var(--black-color); */
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
 }
 .input_error_border {
   border-color: #b94a48 !important;

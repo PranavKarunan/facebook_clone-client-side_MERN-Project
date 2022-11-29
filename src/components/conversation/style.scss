@@ -27,6 +27,16 @@
     font-weight: 500;
     color: black;
   }
+
+  .chatOnlineBadge {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: limegreen;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+  }
   
   @media screen and (max-width: 768px) {
     .conversation_name {

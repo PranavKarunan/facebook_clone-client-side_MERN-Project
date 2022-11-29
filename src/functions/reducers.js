@@ -39,15 +39,34 @@ export function profileReducer(state, action) {
 export function photosReducer(state, action) {
   switch (action.type) {
     case "PHOTOS_REQUEST":
-      return { ...state, loading: true, error: "" };
+      return { ...state, photoloading: true, photoerror: "" };
     case "PHOTOS_SUCCESS":
       return {
         ...state,
-        loading: false,
+        photoloading: false,
         photos: action.payload,
-        error: "",
+        photoerror: "",
       };
     case "PHOTOS_ERROR":
+      return { ...state, photoloading: false, photoerror: action.payload };
+
+    default:
+      return state;
+  }
+}
+
+export function friendspage(state, action) {
+  switch (action.type) {
+    case "FRIENDS_REQUEST":
+      return { ...state, loading: true, error: "" };
+    case "FRIENDS_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        data: action.payload,
+        error: "",
+      };
+    case "FRIENDS_ERROR":
       return { ...state, loading: false, error: action.payload };
 
     default:

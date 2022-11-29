@@ -1,5 +1,7 @@
 import "./style.scss";
 import { Link, Navigate } from "react-router-dom";
+import PostAddOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
+
 import {
   ArrowDown,
   Friends,
@@ -21,15 +23,22 @@ import AllMenu from "./AllMenu";
 import useClickOutside from "../../helpers/clickOutside";
 import UserMenu from "./userMenu";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
-export default function Header({ page, notificaion, setNotification }) {
+export default function Header({
+  page,
+  notificaion,
+  setNotification,
+  setVisible,
+}) {
   const navigate = useNavigate();
   const { user } = useSelector((user) => ({ ...user }));
   const color = "#65676b";
   const [showSearchMenu, setShowSearchMenu] = useState(false);
+  const dispatch = useDispatch();
   const [showAllMenu, setShowAllMenu] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [showMsgNotification, setShowMsgNotification] = useState(false);
+  // const [showMsgNotification, setShowMsgNotification] = useState(false);
   const allmenu = useRef(null);
   const usermenu = useRef(null);
   useClickOutside(allmenu, () => {
@@ -39,12 +48,16 @@ export default function Header({ page, notificaion, setNotification }) {
   useClickOutside(usermenu, () => {
     setShowUserMenu(false);
   });
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    dispatch({ type: "LOGOUT", payload: null });
+  };
   return (
     <header>
       <div className="header_left">
         <Link to="/" className="header_logo">
-          <div className="circle">
-            <Logo />
+          <div className="circle1">
+            <img className="circle" src=".././images/LOGO.png" alt="" />
           </div>
         </Link>
         <div
@@ -56,13 +69,17 @@ export default function Header({ page, notificaion, setNotification }) {
           <Search color={color} />
           <input
             type="text"
-            placeholder="Search Facebook"
+            placeholder="Search Gather"
             className="hide_input"
           />
         </div>
       </div>
       {showSearchMenu && (
-        <SearchMenu color={color} setShowSearchMenu={setShowSearchMenu} />
+        <SearchMenu
+          color={color}
+          setShowSearchMenu={setShowSearchMenu}
+          token={user.token}
+        />
       )}
       <div className="header_middle">
         <Link
@@ -74,7 +91,7 @@ export default function Header({ page, notificaion, setNotification }) {
         <Link to="" className="middle_icon hover1">
           <Friends color={color} />
         </Link>
-        <Link to="" className="middle_icon hover1">
+        {/* <Link to="" className="middle_icon hover1">
           <Watch color={color} />
           <div className="middle_notification">9+</div>
         </Link>
@@ -83,7 +100,13 @@ export default function Header({ page, notificaion, setNotification }) {
         </Link>
         <Link to="" className="middle_icon hover1 ">
           <Gaming color={color} />
-        </Link>
+        </Link> */}
+        <PostAddOutlinedIcon
+          className="middle_icon hover1"
+          onClick={() => {
+            setVisible(true);
+          }}
+        />
       </div>
       <div className="header_right">
         <Link
@@ -95,7 +118,7 @@ export default function Header({ page, notificaion, setNotification }) {
           <img src={user?.picture} alt="" />
           <span>{user?.first_name}</span>
         </Link>
-        <div className="circle_icon hover1" ref={allmenu}>
+        {/* <div className="circle_icon hover1" ref={allmenu}>
           <div
             onClick={() => {
               setShowAllMenu((prev) => !prev);
@@ -107,7 +130,7 @@ export default function Header({ page, notificaion, setNotification }) {
           </div>
 
           {showAllMenu && <AllMenu />}
-        </div>
+        </div> */}
         <div
           className="circle_icon hover1"
           onClick={() => {
@@ -116,11 +139,11 @@ export default function Header({ page, notificaion, setNotification }) {
         >
           <Messenger />
         </div>
-        <div className="circle_icon hover1">
+        {/* <div className="circle_icon hover1">
           <Notifications />
           <div className="right_notification">5</div>
-        </div>
-        <div className="circle_icon hover1" ref={usermenu}>
+        </div> */}
+        {/* <div className="circle_icon hover1" ref={usermenu}>
           <div
             onClick={() => {
               setShowUserMenu((prev) => !prev);
@@ -132,6 +155,12 @@ export default function Header({ page, notificaion, setNotification }) {
           </div>
 
           {showUserMenu && <UserMenu user={user} />}
+        </div> */}
+        <div className="mmenu_item hover3" onClick={handleLogout}>
+          <div className="small_circle">
+            <i className="logout_filled_icon"></i>
+          </div>
+          <span>Logout</span>
         </div>
       </div>
     </header>

@@ -14,7 +14,13 @@ import Post from "../../components/post";
 import Photos from "./Photos";
 import Friends from "./Friends";
 import ProfilePictureInfos from "./ProfilePictureInfos";
-export default function Profile({ setVisible }) {
+export default function Profile({
+  setVisible,
+  photosVisible,
+  singlePhoto,
+  setPhotosVisible,
+  setSinglePhoto,
+}) {
   const { username } = useParams();
   const navigate = useNavigate();
   const { user } = useSelector((state) => ({ ...state }));
@@ -65,16 +71,20 @@ export default function Profile({ setVisible }) {
         <div className="profile_container">
           <Cover cover={profile.cover} visitor={visitor} />
           <ProfilePictureInfos profile={profile} visitor={visitor} />
-          <ProfileMenu />
+          <ProfileMenu setPhotosVisible={setPhotosVisible} />
         </div>
       </div>
       <div className="profile_bottom">
         <div className="profile_container">
           <div className="bottom_container">
-            <PplYouMayKnow />
+            {/* <PplYouMayKnow /> */}
             <div className="profile_grid">
               <div className="profile_left">
-                <Photos username={userName} token={user.token} />
+                <Photos
+                  username={userName}
+                  token={user.token}
+                  setPhotosVisible={setPhotosVisible}
+                />
                 <Friends friends={profile.friends} />
                 <div className="relative_fb_copyright">
                   <Link to="/">Privacy </Link>

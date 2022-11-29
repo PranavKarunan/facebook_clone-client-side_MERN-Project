@@ -30,6 +30,7 @@ export default function Conversation({ conversation, currentUser }) {
       />
       <span className="conversation_name">
         {user?.first_name} {user?.last_name}
+        <div className="chatOnlineBadge"></div>
       </span>
     </div>
   );

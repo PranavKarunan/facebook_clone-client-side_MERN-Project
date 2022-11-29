@@ -16,6 +16,8 @@ export default function Post({ post, user, profile }) {
   const [total, setTotal] = useState(0);
   const [count, setCount] = useState(1);
   const [comments, setComments] = useState([]);
+  const [showComments, setShowComments] = useState(false);
+  const [viewMoreComments, setViewMoreComments] = useState(false);
   useEffect(() => {
     getPostReacts();
   }, [post]);
@@ -53,7 +55,13 @@ export default function Post({ post, user, profile }) {
     }
   };
   const showMore = () => {
+    setViewMoreComments(true);
     setCount((prev) => prev + 3);
+  };
+
+  const showLess = () => {
+    setViewMoreComments(false);
+    setCount((prev) => prev - 3);
   };
   const postRef = useRef(null);
   return (
@@ -165,7 +173,9 @@ export default function Post({ post, user, profile }) {
           <div className="reacts_count_num">{total > 0 && total}</div>
         </div>
         <div className="to_right">
-          <div className="comments_count">{comments.length} comments</div>
+          <div className="comments_count" onClick={() => setShowComments(true)}>
+            {comments.length} comments
+          </div>
           <div className="share_count">0 share</div>
         </div>
       </div>
@@ -242,17 +252,24 @@ export default function Post({ post, user, profile }) {
           setCount={setCount}
         />
         {comments &&
+          showComments &&
           comments
             .sort((a, b) => {
               return new Date(b.commentAt) - new Date(a.commentAt);
             })
             .slice(0, count)
             .map((comment, i) => <Comment comment={comment} key={i} />)}
-        {count < comments.length && (
-          <div className="view_comments" onClick={() => showMore()}>
-            View more comments
-          </div>
-        )}
+        {count < comments.length &&
+          showComments &&
+          (viewMoreComments ? (
+            <div className="view_comments" onClick={() => showLess()}>
+              View less comments
+            </div>
+          ) : (
+            <div className="view_comments" onClick={() => showMore()}>
+              View more comments
+            </div>
+          ))}
       </div>
       {showMenu && (
         <PostMenu

@@ -46,13 +46,13 @@ export default function ChatOnline({
           ""
         ) : (
           <div className="chatOnlineFriend" key={i} onClick={handleClick}>
-            <div className="chatOnlineImgContainer">
+            {/* <div className="chatOnlineImgContainer">
               <img className="chatOnlineImg" src={`${friend.picture}`} alt="" />
               <div className="chatOnlineBadge"></div>
             </div>
             <span className="chatOnlineName">
               {friend.first_name} {friend.last_name}
-            </span>
+            </span> */}
           </div>
         )
       )}

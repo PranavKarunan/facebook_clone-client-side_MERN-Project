@@ -24,7 +24,7 @@ export default function LeftHome({ user }) {
         />
       ))}
 
-      {!visible && (
+      {/* {!visible && (
         <div
           className="left_link hover1"
           onClick={() => {
@@ -54,8 +54,8 @@ export default function LeftHome({ user }) {
             <span>See less</span>
           </div>
         </div>
-      )}
-      <div className="splitter"></div>
+      )} */}
+      {/* <div className="splitter"></div>
       <div className="shortcut">
         <div className="heading">Your shortcuts</div>
         <div className="edit_shortcut">Edit</div>
@@ -71,8 +71,8 @@ export default function LeftHome({ user }) {
           img="../../images/insta.png"
           name="My instagram"
         />
-      </div>
-      <div className={`fb_copyright ${visible && "relative_fb_copyright"}`}>
+      </div> */}
+      {/* <div className={`fb_copyright ${visible && "relative_fb_copyright"}`}>
         <Link to="/">Privacy </Link>
         <span>. </span>
         <Link to="/">Terms </Link>
@@ -87,7 +87,7 @@ export default function LeftHome({ user }) {
         <Link to="/">More </Link>
         <span>. </span> <br />
         Meta © 2022
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -12,11 +12,20 @@ import { useEffect, useReducer, useState } from "react";
 import axios from "axios";
 import { postsReducer } from "./functions/reducers";
 import Messanger from "./pages/messenger/Messanger";
+import PageNotFound from "./pages/404/PageNotFound";
+import Friends from "./pages/friends";
+import SinglePhots from "./pages/profile/SinglePhots";
+import AllPhotos from "./pages/profile/AllPhotos";
+import { photosReducer } from "./functions/reducers";
 
 function App() {
   const [visible, setVisible] = useState(false);
+  const [photosVisible, setPhotosVisible] = useState(false);
+  const [singlePhoto, setSinglePhoto] = useState(false);
   const { user } = useSelector((state) => ({ ...state }));
   const [newPost, setNewPost] = useState(false);
+
+ 
   const [{ loading, error, posts }, dispatch] = useReducer(postsReducer, {
     loading: false,
     posts: [],
@@ -49,6 +58,9 @@ function App() {
       });
     }
   };
+
+ 
+
   return (
     <div>
       {visible && (
@@ -58,16 +70,67 @@ function App() {
           setNewPost={setNewPost}
         />
       )}
+      {photosVisible && (
+        <AllPhotos
+          username = {user.username}
+          token = {user.token}
+          setPhotosVisible={setPhotosVisible}
+          setSinglePhoto={setSinglePhoto}
+          photosVisible={photosVisible}
+          singlePhoto={singlePhoto}
+        />
+      )}
       <Routes>
         <Route element={<LoggedInRoutes />}>
           <Route
             path="/profile"
-            element={<Profile setVisible={setVisible} />}
+            element={
+              <Profile
+                setVisible={setVisible}
+                setPhotosVisible={setPhotosVisible}
+                setSinglePhoto={setSinglePhoto}
+                photosVisible={photosVisible}
+                singlePhoto={singlePhoto}
+              />
+            }
             exact
           />
           <Route
-            path="/profile/username"
-            element={<Profile setVisible={setVisible} />}
+            path="/profile/:username"
+            element={
+              <Profile setVisible={setVisible} getAllPosts={getAllPosts} />
+            }
+            exact
+          />
+          <Route
+            path="/friends"
+            element={
+              <Friends setVisible={setVisible} getAllPosts={getAllPosts} />
+            }
+            exact
+          />
+          {/* <Route
+            path="/singlePhots"
+            element={<SinglePhots setSinglePhoto={setSinglePhoto} />}
+            exact
+          />
+          <Route
+            path="/allPhotos"
+            element={
+              <AllPhotos
+                setPhotosVisible={setPhotosVisible}
+                setSinglePhoto={setSinglePhoto}
+                photosVisible={photosVisible}
+                singlePhoto={singlePhoto}
+              />
+            }
+            exact
+          /> */}
+          <Route
+            path="/friends/:type"
+            element={
+              <Friends setVisible={setVisible} getAllPosts={getAllPosts} />
+            }
             exact
           />
 
@@ -84,6 +147,7 @@ function App() {
           <Route path="/login" element={<Login />} exact />
         </Route>
         {/* <Route path="/reset" element={<Reset />} /> */}
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </div>
   );
